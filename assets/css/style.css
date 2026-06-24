@@ -1594,12 +1594,43 @@ img {
     height: auto;
 }
 
-/* 화면 너비가 768px 이하(태블릿/모바일)일 때의 설정 */
+/* 화면 너비가 768px 이하(모바일)일 때의 설정 */
 @media screen and (max-width: 768px) {
-    body {
-        width: 100%;
-        overflow-x: hidden; /* 가로 스크롤 방지 */
+    /* 1. 컨테이너 고정 너비 해제 및 여백 확보 */
+    .hero, .section, .footer, .topbar {
+        width: 100% !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        box-sizing: border-box;
+    }
+
+    /* 2. 히어로 섹션 세로 배치 */
+    .hero-content {
+        grid-template-columns: 1fr !important; /* 2단 배치를 1단으로 */
+        gap: 20px !important;
+    }
+
+    /* 3. 모바일에서 너무 큰 박스 강제 축소 */
+    .hero-box, .panel, .member-card {
+        width: 100% !important;
+    }
+
+    /* 4. 이미지 갤러리/그리드 모바일 최적화 */
+    .grid.three, .member-grid, .goods-board-list {
+        grid-template-columns: 1fr !important; /* 3단을 1단으로 */
     }
     
-    /* 여기서 필요하다면 요소들의 크기나 배치를 수정할 수 있습니다 */
+    .grid.two {
+        grid-template-columns: 1fr !important; /* 2단을 1단으로 */
+    }
+
+    /* 5. 메뉴바 조정 */
+    .topbar {
+        flex-direction: column;
+        height: auto;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
