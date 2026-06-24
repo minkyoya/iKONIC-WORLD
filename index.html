@@ -1,0 +1,843 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<!--
+    Open-source / AI usage note:
+    초기 화면 구조는 Bootstrap 5.3.3 오픈소스 UI 라이브러리의 navbar, card, accordion,
+    modal, tab 같은 기본 컴포넌트 구성을 참고했다. AI는 템플릿 정보와 기능 구현 예시를
+    조사 및 정리하고, 일부 기능 초안을 현재 프로젝트 구조에 맞게 병합하는 보조 용도로 사용했다.
+    Bootstrap source: https://getbootstrap.com/
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iKON Fan Page Wireframe</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 상단 고정 메뉴: 메뉴 이름을 바꾸거나 이동할 섹션 링크를 수정하려면 아래 nav 내부를 수정 -->
+    <header class="hero" id="home">
+        <nav class="topbar" id="topbar">
+            <a href="#home" class="brand">iKON FAN PAGE | iKONIC WORLD </a>
+            <div class="nav-links">
+                <a href="#about">소개</a>
+                <a href="#members">멤버</a>
+                <a href="#guide">입덕 가이드</a>
+                <a href="#music">추천곡</a>
+                <a href="#community">커뮤니티</a>
+                <a href="#events">이벤트</a>
+            </div>
+        </nav>
+
+        <!-- 메인 홈 화면: 대표 문구, 소개 문장, 버튼 문구는 아래 hero-content 영역에서 수정 -->
+        <div class="hero-content">
+            <div class="hero-text">
+                <p class="label">Today's Play</p>
+                <h1 class="hero-main-title">iKONIC DAILY ROOM</h1>
+                <div class="d-day-badges">
+                    <span class="d-day-badge" id="debutDday">데뷔 +0000일 ❤️</span>
+                </div>
+                <p class="hero-copy">오늘도 Get Ready? Show Time!<br>미션부터 운세까지, 코닉이들을 위한 덕질 충전소</p>
+                
+                <!-- 아이코닉 미션 -->
+                <div class="mission-zone" style="margin-bottom: 15px;">
+                    <h2 style="font-size: 1.3rem;">오늘의 아이코닉 미션</h2>
+                    <p id="daily-mission" style="font-size: 1.05rem; min-height: 40px; font-weight: bold; color: #ff4d6d;">
+                        미션을 완료하고 덕력 온도를 높여보세요!
+                    </p>
+                    <div class="fan-power-wrap">
+                        <span class="fan-power-label">나의 덕력 온도 🌡️ <span id="fanPowerText">36.5°C</span></span>
+                        <div class="fan-power-bar">
+                            <div class="fan-power-fill" id="fanPowerFill"></div>
+                        </div>
+                    </div>
+                    <button class="button" id="missionBtn" type="button">새 미션 뽑기</button>
+                    <button class="button" id="completeBtn" type="button" style="background: #ff4d6d; color: #fff; border-color: #ff4d6d;">미션 완료!</button>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #ddd; margin: 12px 0;">
+                
+                <!-- 입덕 부정기 테스트 -->
+                <div class="quiz-zone">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h2 style="font-size: 1.3rem; margin-bottom: 0;">입덕 부정기 테스트</h2>
+                        <a href="#guide" class="button" style="padding: 6px 14px; font-size: 0.9rem; background: #fff !important; color: #e3000f !important; border: 2px solid #e3000f !important; border-radius: 20px;">입덕 가이드 바로가기 🏃‍♂️</a>
+                    </div>
+                    <p id="quiz-question" style="font-size: 0.95rem; margin-bottom: 10px;">아이콘의 맏내이자 '뿌요'라는 별명을 가진 멤버는?</p>
+                    <div class="button-row" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="button quiz-opt" onclick="checkQuiz(true)">1. 김진환</button>
+                        <button class="button quiz-opt" onclick="checkQuiz(false)">2. 구준회</button>
+                        <button class="button quiz-opt" onclick="checkQuiz(false)">3. 바비</button>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- 랜덤 포토카드 섹션 -->
+            <div class="hero-box">
+                <div class="photocard">
+                    <div class="photocard-box" id="photocardImage">포토카드</div>
+                    <h3 id="photocardName">랜덤 포토카드를 뽑아보세요</h3>
+                    <p id="photocardMessage">최애가 점쳐주는 오늘의 운세!🃏</p>
+                </div>
+                <button class="button" id="drawCard" type="button">포카 뽑고 오늘의 운세 보기 🔮</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. iKON 소개 -->
+        <section class="section" id="about">
+            <p class="label">01</p>
+            <h2>iKON 프로필</h2>
+            <div class="grid two">
+                <article class="panel">
+                    <h3>기본 정보</h3>
+                    <ul class="simple-list">
+                        <li>공식명칭: iKON(아이콘)</li>
+                        <li>우리의 생일: 2015.09.15(데뷔일)</li>
+                        <li>팀구호: Get Ready? Show time!</li>
+                        <li>팬덤 이름: iKONIC(아이코닉) </li>
+                    </ul>
+                </article>
+                <article class="panel">
+                    <h3>iKONIC WORLD 공식 채널 커넥트</h3>
+                    <div class="grid three mini-gap social-links">
+                        <a href="https://www.youtube.com/@iKON" target="_blank" rel="noreferrer" class="placeholder small">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" class="sns-icon">
+                        </a>
+                        <a href="https://www.instagram.com/withikonic/" target="_blank" rel="noreferrer" class="placeholder small">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" class="sns-icon">
+                        </a>
+                        <a href="https://www.tiktok.com/@ikon_tiktok" target="_blank" rel="noreferrer" class="placeholder small">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok" class="sns-icon">
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 2. 멤버 소개 -->
+        <section class="section" id="members">
+            <p class="label">02</p>
+            <h2>멤버 소개</h2>
+            <div class="member-grid">
+                
+                <!-- 김진환 -->
+                <article class="panel member-card">
+                    <div class="member-image-wrap">
+                        <div class="member-badge">#요정_뿌요</div>
+                        <img src="https://i.namu.wiki/i/qRYKOc79AwjPfrnxMEH5JfLcvz0yLQ0FqE_BqhYywa8praKBbaY3_YRMnP81JII9VMjM4YKKL74yKPpVS3zYKw.webp" alt="김진환" class="member-img">
+                    </div>
+
+                    <div class="member-content">
+                        <br><h3>김진환 JAY</h3>
+                        
+                        <p class="member-intro">"아이콘의 맏내, <strong>퍼포먼스 장인</strong>"</p>
+
+                        <div class="tmi-section">
+                            <h4 class="tmi-section"></h4>
+                            <ul>
+                                <li><strong>TMI</strong> <br>
+                                    : 눈 밑 하트 점, 반전 카리스마</li><br>
+                                 <li><strong>특이사항</strong> <br>
+                                    : 팀 내 요정 담당(하지만 맏형)</li><br>
+                                <li><strong>팬들의 한마디</strong><br>
+                                    : 입덕 부정기를 끝내게 만드는 걔</li>
+                            </ul>
+                        </div>
+
+                        <div class="sns-links">
+                            <a href="https://www.instagram.com/gnani_____/" target="_blank"><span style="color: #ff4d6d; font-weight: bold;">Instagram</span> @gnani_____</a>
+                        </div>
+                   </div>
+                </article>
+
+                <!-- 바비 -->
+                <article class="panel member-card">
+                    <div class="member-image-wrap">
+                        <div class="member-badge">#뜨거운_토끼_바비</div>
+                        <img src="https://t1.daumcdn.net/news/202109/27/SPORTSSEOUL/20210927170415464yzks.jpg" alt="바비" class="member-img">
+                    </div>
+
+                    <div class="member-content">
+                        <br><h3>김지원 BOBBY</h3>
+                        
+                        <p class="member-intro">"무대를 찢는 <strong>압도적 래퍼</strong>, 알고보면 <strong>팀 내 공식 귀염둥이</strong>"</p>
+
+                        <div class="tmi-section">
+                            <h4 class="tmi-section"></h4>
+                            <ul>
+                                <li><strong>TMI</strong> <br>
+                                    - 반전매력: 무대 카리스마 vs 눈웃음<br>
+                                    - 애착인형: 연습생 시절부터 아낀 푸우 </li><br>
+                                 <li><strong>특이사항 </strong> <br>
+                                    : 쇼미더머니3 우승자, 천재 올라운더</li><br>
+                                <li><strong>팬들의 한마디</strong><br>
+                                    : 우리 바비는 항상 무대를 찢어🔥</li>
+                            </ul>
+                        </div>
+
+                        <div class="sns-links">
+                            <a href="https://www.instagram.com/bobbyindaeyo/?hl=ko" target="_blank"><span style="color: #ff4d6d; font-weight: bold;">Instagram</span> @bobbyindaeyo</a>
+                        </div>
+                   </div>
+                </article>
+
+                 <!-- 송윤형 -->
+                <article class="panel member-card">
+                    <div class="member-image-wrap">
+                        <div class="member-badge">#열정맨_송쉪</div>
+                        <img src="https://i.namu.wiki/i/xc6k86Cq41aiNFBgSSOlqeoOsJkVwG-sgzt1h4S5yIicZHCPjsewxHsiFzHMp4qH9Kb_07ypxMANT0mf0vVXlA.webp" alt="송윤형" class="member-img">
+                    </div>
+
+                    <div class="member-content">
+                        <br><h3>송윤형 SONG</h3>
+                        
+                        <p class="member-intro">"아이콘의 센터 비주얼, 열정 넘치는 <strong> 송프린스</strong>"</p>
+
+                        <div class="tmi-section">
+                            <h4 class="tmi-section"></h4>
+                            <ul>
+                                <li><strong>TMI</strong> <br>
+                                    - 요리 금손 (유튜브 '송슐랭가이드')<br>
+                                    - 니베아 찐팬 (공식 모델 발탁 성덕)</li><br>
+                                 <li><strong>특이사항 </strong> <br>
+                                    : 일본어 능력자, 팀 내 공식 '열정맨' 및 '예의'담당</li> <br>
+                                <li><strong>팬들의 한마디</strong><br>
+                                    : 다정한 유죄인간 송슐랭가이드 구독하세요~</li>
+                            </ul>
+                        </div>
+
+                        <div class="sns-links">
+                            <a href="https://www.instagram.com/sssong_yh/" target="_blank"><span style="color: #ff4d6d; font-weight: bold;">Instagram</span> @sssong_yh</a>
+                            <br><a href="https://www.youtube.com/@SONGCHELIN_GUIDE" target="_blank"><span style="color: red; font-weight: bold;">youtube</span> 송슐랭가이드🥄</a>
+                        </div>
+                   </div>
+                </article>
+
+                <!-- 구준회 -->
+                <article class="panel member-card">
+                    <div class="member-image-wrap">
+                        <div class="member-badge">#구배우_시인</div>
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA0MDRfMTk3%2FMDAxNjE3NDcwMTY2MjIx.G2uJNUcoT6M3yQuzngeS5Zs7G6jStB0TJ2fe--nZwnsg.3KSISlNHhq2s1LCrJ9D0UPBBOOHqlyCrcDxAzcaIgUMg.JPEG.fieeliooo%2FScreenshot_2021-03-28_at_02.11.17.jpg&type=sc960_832" alt="구준회" class="member-img">
+                    </div>
+
+                    <div class="member-content">
+                        <br><h3>구준회 JU-NE</h3>
+                        
+                        <p class="member-intro">"허스키 보이스(구스키), <strong>자유로운 영혼</strong>"</p>
+
+                        <div class="tmi-section">
+                            <h4 class="tmi-section"></h4>
+                            <ul>
+                                <li><strong>TMI</strong> <br>
+                                    - 마이클 잭슨 광팬 (어릴 적 스타킹 출연)<br>
+                                    - 시 쓰기, 그림 그리기를 즐기는 감성파</li><br>
+                                 <li><strong>특이사항 </strong> <br>
+                                    : 직진남 성격, 팀 내에서 '자유로움'을 담당</li> <br>
+                                <li><strong>팬들의 한마디</strong><br>
+                                    : 구스키 목소리가 곧 장르다,,,</li>
+                            </ul>
+                        </div>
+
+                        <div class="sns-links">
+                            <a href="https://www.instagram.com/juneeeeeeya" target="_blank"><span style="color: #ff4d6d; font-weight: bold;">Instagram</span> @juneeeeeeya</a>
+                        </div>
+                   </div>
+                </article>
+
+                <!-- 김동혁 -->
+                <article class="panel member-card">
+                    <div class="member-image-wrap">
+                        <div class="member-badge">#메인댄서_동댕이</div>
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5353%2F2018%2F10%2F02%2F0000415859_001_20181002145320500.jpg&type=sc960_832" alt="김동혁" class="member-img">
+                    </div>
+
+                    <div class="member-content">
+                        <br><h3>김동혁 DK</h3>
+                        
+                        <p class="member-intro">"아이콘의 퍼포먼스 리더, <strong>햇살 미소</strong>"</p>
+
+                        <div class="tmi-section">
+                            <h4 class="tmi-section"></h4>
+                            <ul>
+                                <li><strong>TMI</strong> <br>
+                                    - 댄스 장인이자 작사·작곡 능력자<br>
+                                    - 팀 내 사복 패셔니스타</li><br>
+                                 <li><strong>특이사항 </strong> <br>
+                                    : 전교 회장 출신의 엄친아, 다정다감한 햇살 동혁</li> <br>
+                                <li><strong>팬들의 한마디</strong><br>
+                                    : 동혁이 제대할 때까지 숨 참는다.</li>
+                            </ul>
+                        </div>
+
+                        <div class="sns-links">
+                            <a href="https://www.instagram.com/_dong_ii/" target="_blank"><span style="color: #ff4d6d; font-weight: bold;">Instagram</span> @_dong_ii</a>
+                        </div>
+                   </div>
+                </article>
+
+                <!-- 정찬우 -->
+                <article class="panel member-card">
+                    <div class="member-image-wrap">
+                        <div class="member-badge">#막내온탑_찬우살이</div>
+                        <img src="https://www.chosun.com/resizer/v2/KR6LFHY7IULCWVVHLPIILOJHTY.jpg?auth=f524a495118c2d9be71833f5834e7e99ae32a9353e908d27e1fef3969b417e00&width=464" alt="정찬우" class="member-img">
+                    </div>
+
+                    <div class="member-content">
+                        <br><h3>정찬우 CHAN</h3>
+                        
+                        <p class="member-intro">"아이콘의 실세 막내, <strong>프로 유튜바</strong>"</p>
+
+                        <div class="tmi-section">
+                            <h4 class="tmi-section"></h4>
+                            <ul>
+                                <li><strong>TMI</strong> <br>
+                                    - 아역배우 출신 (상속자들, 꽃보다 남자)<br>
+                                    - 자타공인 게임 & 야구 매니아</li><br>
+                                 <li><strong>특이사항 </strong> <br>
+                                    : 팀 내 막내지만 실세(막내온탑)</li> <br>
+                                <li><strong>팬들의 한마디</strong><br>
+                                    : 찬우살이 구독과 좋아요~</li>
+                            </ul>
+                        </div>
+
+                        <div class="sns-links">
+                            <a href="https://www.instagram.com/chan_w000/" target="_blank"><span style="color: #ff4d6d; font-weight: bold;">Instagram</span> @chan_w000</a>
+                            <br><a href="https://www.youtube.com/channel/UC1LiTfGNZiweSTu8_NFVi1g" target="_blank"><span style="color: red; font-weight: bold;">youtube</span> 찬우살이😎</a>
+                        </div>
+                   </div>
+                </article>
+
+
+            </div>
+        </section>
+
+        <!-- 3. 입덕 가이드: 아코디언 제목/내용은 아래 accordion-item 단위로 수정 -->
+        <section class="section" id="guide">
+            <p class="label">03</p>
+            <h2>입덕 가이드</h2>
+            <div class="accordion-group">
+                <article class="accordion-item active">
+                    <button class="accordion-trigger">아이코닉 실전 용어 사전 📖</button>
+                    <div class="accordion-content">
+                        <div class="grid three">
+                            <div class="dict-card">
+                                <span class="dict-word">뿌요</span>
+                                <p class="dict-desc">진환의 별명.<br>'요정'같이 귀엽고 사랑스럽다는 뜻.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">구스키 (Ju-ne)</span>
+                                <p class="dict-desc">준회의 독보적인 허스키 보이스.<br>한 번 들으면 절대 빠져나올 수 없음.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">콘배트</span>
+                                <p class="dict-desc">야구 배트 모양의 공식 응원봉!<br>콘서트장에서 미친 듯이 흔들면 쾌감 100%.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">찬우살이</span>
+                                <p class="dict-desc">막내 찬우의 개인 유튜브 채널.<br>코닉이들의 공식 밥친구.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">송슐랭 가이드</span>
+                                <p class="dict-desc">윤형이의 요리 유튜브 채널<br> 밤에 보면 야식 바로 시킬 수 있으니 주의 요망.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">코닉이 (iKONIC)</span>
+                                <p class="dict-desc">아이콘 멤버들이 팬덤 '아이코닉'을 다정하게 부르는 애칭.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">Get Ready? Show Time!</span>
+                                <p class="dict-desc">아이콘의 공식 팀 구호이자 시작을 알리는 주문.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">어덕행덕</span>
+                                <p class="dict-desc">'어차피 덕질할 거 행복하게 덕질하자'는 모토.</p>
+                            </div>
+                            <div class="dict-card">
+                                <span class="dict-word">시노시작</span>
+                                <p class="dict-desc">연습생 시절 구호이자 레전드 떼창곡.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="accordion-item">
+                    <button class="accordion-trigger">iKON 타임라인 ⏳</button>
+                    <div class="accordion-content">
+                        <div class="timeline-wrapper">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2013.08 ~ 2013.10</div>
+                                <div class="timeline-content">Mnet 'WIN: Who Is Next' 출연. 모두를 울렸던 Team B의 간절했던 첫 시작.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2014.07 ~ 2014.09</div>
+                                <div class="timeline-content">Mnet '쇼미더머니 3' 바비 출전 및 최종 우승! 아이돌 래퍼의 편견을 박살 냄.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2014.09 ~ 2014.11</div>
+                                <div class="timeline-content">서바이벌 'MIX & MATCH' 방영. 치열한 경쟁 끝에 마침내 iKON 데뷔조 확정!</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2015.09.15</div>
+                                <div class="timeline-content">기나긴 기다림 끝에 정식 데뷔! 선공개곡 '취향저격'으로 음원 차트 올킬.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2015.10.01</div>
+                                <div class="timeline-content">데뷔 앨범 'WELCOME BACK' 발매. 괴물 신인의 등장으로 신인상 싹쓸이!</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2018.01.25</div>
+                                <div class="timeline-content">정규 2집 'RETURN' 발매. 국민 떼창곡 '사랑을 했다'로 연말 대상 수상!</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2021.04 ~ 2021.06</div>
+                                <div class="timeline-content">Mnet '킹덤' 출연. 클래스가 다른 퍼포먼스와 찐 라이브 스웩 입증.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2022.05.03</div>
+                                <div class="timeline-content">미니 4집 'FLASHBACK' 발매. 세련된 레트로 감성의 '너라는 이유'로 컴백.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2023.01.01</div>
+                                <div class="timeline-content">전 멤버 143엔터테인먼트로 이적 발표! 코닉이들과 함께할 제2의 새로운 시작.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2023.05.04</div>
+                                <div class="timeline-content">정규 3집 'TAKE OFF' 발매 (타이틀곡 'U'). 전 세계 코닉들과 함께하는 성공적인 월드 투어 진행</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2023.07 ~ </div>
+                                <div class="timeline-content">진환을 시작으로 릴레이 군 입대. 다시 뭉칠 그날을 약속하며 군백기 진행 중!</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2024.02 ~ 2024.07</div>
+                                <div class="timeline-content">군백기가 무색한 열일 행보! 동혁('NAKSEO'), 윤형('It's 콜!') 성공적인 솔로 데뷔.</div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="accordion-item">
+                    <button class="accordion-trigger">시대별 영상 족보 📼</button>
+                    <div class="accordion-content">
+                        <div class="archive-grid">
+                            <div class="archive-item">
+                                <span class="archive-era">2013 WIN</span>
+                                <h4><a href="https://www.youtube.com/watch?v=TiJp680Wy1A&t=1s" target="_blank">Climax (클라이맥스) 파이널 무대 🎬</a></h4>
+                                <p>간절함이 꾹 눌러 담긴 눈물의 무대. 다 같이 오열하는 입덕 필수 영상.</p>
+                            </div>
+                            <div class="archive-item">
+                                <span class="archive-era">2014 MIX & MATCH</span>
+                                <h4><a href="https://www.youtube.com/watch?v=sEJi_Bltlq0" target="_blank">기다려 (WAIT FOR ME) 무대 🎬</a></h4>
+                                <p>팬들을 위해 부른 곡. 언제 들어도 가슴이 몽글해지는 영원한 눈물 버튼.</p>
+                            </div>
+                            <div class="archive-item">
+                                <span class="archive-era">2018 RETURN</span>
+                                <h4><a href="https://www.youtube.com/watch?v=yOwtvB1xOdI" target="_blank">사랑을 했다 멜론뮤직어워드(MMA) 라이브 🎬</a></h4>
+                                <p>가수와 팬이 하나 된 역대급 떼창! 그 시절 위엄을 보여주는 연말 대상 무대.</p>
+                            </div>
+                            <div class="archive-item">
+                                <span class="archive-era">2021 KINGDOM</span>
+                                <h4><a href="https://www.youtube.com/watch?v=p8K5kCZ54IY" target="_blank">CLASSY SAVAGE 무대 🎬</a></h4>
+                                <p>여유로운 매너와 미친 스웩. '역시 아이콘은 무대'를 증명한 전설의 퍼포먼스.</p>
+                            </div>
+                            <div class="archive-item">
+                                <span class="archive-era">2023 TAKE OFF</span>
+                                <h4><a href="https://www.youtube.com/watch?v=vHFiQvxgTWc" target="_blank">U (유) 댄스 퍼포먼스 비디오 🎬</a></h4>
+                                <p>143 이적 후 첫 컴백! 여유로우면서도 완벽한 칼군무를 보여주는 힙합 바이브.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="accordion-item">
+                    <button class="accordion-trigger">필수 시청! 입덕 추천 영상 🎬</button>
+                    <div class="accordion-content">
+                        <div class="media-layout">
+                            <div class="panel slideshow media-video-panel">
+                                <div class="slides">
+                                    <article class="slide active">
+                                        <div class="video-thumb-wrap">
+                                            <img src="https://i.ytimg.com/vi/eyggo5-kHhc/maxresdefault.jpg" alt="킹덤 무대" class="video-thumb">
+                                            <a href="https://www.youtube.com/watch?v=p8K5kCZ54IY" target="_blank" class="button yt-btn">유튜브에서 보기 ▶</a>
+                                        </div>
+                                        <div class="video-info">
+                                            <h3 class="video-title">[킹덤] CLASSY SAVAGE</h3>
+                                            <p class="video-desc">원곡을 완벽하게 재해석한 무대. 바비 랩 파트에서 심장 멎음 주의!</p>
+                                        </div>
+                                    </article>
+                                    <article class="slide">
+                                        <div class="video-thumb-wrap">
+                                            <img src="https://fs.jtbc.co.kr/joydata/CP00000001/prog/enter/ikontv/img/20180419_102533_280.jpg" alt="iKON TV" class="video-thumb">
+                                            <a href="https://www.youtube.com/watch?v=A-ER46yQHXQ&list=PLgLOPVkNkoITNPHC5_tEN7y3Ey1OSgxOw" target="_blank" class="button yt-btn">유튜브에서 보기 ▶</a>
+                                        </div>
+                                        <div class="video-info">
+                                            <h3 class="video-title">iKON TV (자체 예능)</h3>
+                                            <p class="video-desc">비글미 폭발! 멤버들이 직접 기획한 필수 예능. 레전드 에피소드 다수 보유.</p>
+                                        </div>
+                                    </article>
+                                    <article class="slide">
+                                        <div class="video-thumb-wrap">
+                                            <img src="https://i.ytimg.com/vi/WJO2m1mAPhE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBYnez77BJII7d5IxKFKG5BPhs5AQ" alt="사랑을 했다 떼창" class="video-thumb">
+                                            <a href="https://www.youtube.com/watch?v=WJO2m1mAPhE" target="_blank" class="button yt-btn">유튜브에서 보기 ▶</a>
+                                        </div>
+                                        <div class="video-info">
+                                            <h3 class="video-title">레전드 떼창</h3>
+                                            <p class="video-desc">팬들과 하나 된 벅찬 순간. 이어마이크 빼고 떼창 듣는 표정이 포인트!</p>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="slide-controls">
+                                    <button id="prevSlide" type="button">이전</button>
+                                    <button id="nextSlide" type="button">다음</button>
+                                </div>
+                            </div>
+                            <div class="panel media-comment-panel">
+                                <h3>영상 반응 댓글</h3>
+                                <form id="reactionForm" class="comment-form">
+                                    <input type="text" id="reactionName" placeholder="코닉네임">
+                                    <input type="text" id="reactionInput" placeholder="주접달기">
+                                    <button type="submit" class="button">등록</button>
+                                </form>
+                                <div class="comment-scroll">
+                                    <ul id="reactionList" class="simple-list">
+                                        <li><strong class="reaction-author">팬A</strong>: 무대가 정말 인상적이었어요.</li>
+                                        <li><strong class="reaction-author">팬B</strong>: 다시 보고 싶은 영상이에요.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 4. 추천곡: 앨범 카드, 모달 연결, 오디오 파일 경로를 바꾸려면 music 섹션과 아래 modal 영역 수정 -->
+        <section class="section" id="music">
+            <p class="label">04</p>
+            <h2>추천곡</h2>
+            <div class="grid three">
+                <button class="panel album-card modal-open" data-modal="modal1">
+                    <div class="placeholder album-box">
+                        <img src="assets/images/Win.webp" alt="WIN 앨범 이미지" class="album-img">
+                    </div>
+                    <strong>우리의 서사, 팬송 💧</strong>
+                    <span>데뷔 전부터 지금까지, 진심 100% 위로와 감동</span>
+                </button>
+                <button class="panel album-card modal-open" data-modal="modal2">
+                    <div class="placeholder album-box">
+                        <img src="assets/images/WelcomeBack.webp" alt="iKON 앨범 이미지" class="album-img">
+                    </div>
+                    <strong>콘서트 지붕킥 떼창 🔥</strong>
+                    <span>시노시작! 내일이 없는 것처럼 뛰고 노는 미친 텐션</span>
+                </button>
+                <button class="panel album-card modal-open" data-modal="modal3">
+                    <div class="placeholder album-box">
+                        <img src="assets/images/Return.webp" alt="RETURN 앨범 이미지" class="album-img">
+                    </div>
+                    <strong>새벽 감성 수록곡 🌙</strong>
+                    <span>타이틀곡만큼 앓는 사람 많다는 아이콘표 이별/위로곡</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. 커뮤니티: 게시판 제목, 설명, 투표 항목은 community 섹션 내부 수정 -->
+        <section class="section" id="community">
+            <p class="label">05</p>
+            <h2>커뮤니티</h2>
+            <div class="community-board-grid">
+                <div class="board-switch">
+                    <button class="button board-tab active" type="button" data-board-target="goodsBoard">굿즈 게시판</button>
+                    <button class="button board-tab" type="button" data-board-target="pilgrimageBoard">성지순례 게시판</button>
+                    <button class="button board-tab" type="button" data-board-target="freeBoard">팬 자유게시판</button>
+                </div>
+
+                <div class="board-panel active" id="goodsBoard">
+                    <div class="panel community-board">
+                        <div class="board-header">
+                            <h3>🛍️ 굿즈 게시판</h3>
+                            <p>소중한 앨범, 영롱한 포토카드! 코닉이들과 굿즈를 교환하고 자랑해 보세요.</p>
+                        </div>
+                        <div class="board-list-scroll">
+                            <ul class="board-list goods-board-list" id="goodsPostList"></ul>
+                        </div>
+                        <div class="board-actions">
+                            <button class="button open-post-modal" type="button" data-board-type="goods">게시물 등록</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="board-panel" id="pilgrimageBoard">
+                    <div class="panel pilgrimage-board">
+                        <div class="board-header">
+                            <h3>🗺️ 성지순례 게시판</h3>
+                            <p>멤버들의 발자취를 따라서! 코닉이들을 위한 핫플, 맛집, 촬영지 가이드</p>
+                        </div>
+                        <article class="pilgrimage-slide">
+                            <div class="pilgrimage-info">
+                                <h3>하남 서부한우생고기 (윤형 부모님 고기집)</h3>
+                                <p><strong>📍 위치:</strong> 경기 하남시 (서부한우생고기)</p>
+                                <p><strong>🏃‍♂️ 다녀간 멤버:</strong> 아이콘 멤버들</p>
+                                <p><strong>🥩 장소 종류:</strong> 고기집</p>
+                                <p><strong>💡 추천 포인트:</strong> 코닉들의 필수 코스! 연습생 때부터의 흔적과 애정이 가득한 찐 성지.</p>
+                                <p><strong>📝 메모:</strong> 고기도 훌륭하고 친절하심! 운 좋으면 윤형이를 마주칠 수도? 🥩</p>
+                                <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20131011_98%2Fkyeongran12_13814222637302K4OJ_JPEG%2Fl%253B_1827.jpg&type=sc960_832" alt="하남 서부한우생고기" class="pilgrimage-photo">
+                            </div>
+                            <a class="pilgrimage-map map-shot-link" href="https://map.naver.com/p/search/%EC%84%9C%EB%B6%80%ED%95%9C%EC%9A%B0%EC%83%9D%EA%B3%A0%EA%B8%B0%EC%A0%84%EB%AC%B8" target="_blank" rel="noopener noreferrer" aria-label="서부한우생고기전문 네이버 지도 열기">
+                                <img src="assets/images/map_seobu_hanwoo.png" alt="서부한우생고기전문 네이버 지도 스크린샷" class="map-shot">
+                                <span class="map-shot-caption">네이버 지도에서 보기</span>
+                            </a>
+                        </article>
+                        <article class="pilgrimage-slide">
+                            <div class="pilgrimage-info">
+                                <h3>쿠차라</h3>
+                                <p><strong>📍 위치:</strong> 서울 마포구 마포나루길 467</p>
+                                <p><strong>🏃‍♂️ 다녀간 멤버:</strong> 바비, 동혁</p>
+                                <p><strong>🌿 장소 종류:</strong> 맥시칸 음식점 / 맛집</p>
+                                <p><strong>💡 추천 포인트:</strong> 바비와 동혁이의 단골 멕시칸 맛집! 부리토볼 조합이 예술임.</p>
+                                <p><strong>📝 메모:</strong> 최애 메뉴 조합으로 커스텀해서 같은 자리에서 인증샷 필수!</p>
+                                <img src="assets/images/bobby_instagram.jpg" alt="바비 맛집" class="pilgrimage-photo">
+                            </div>
+                            <a class="pilgrimage-map map-shot-link" href="https://map.naver.com/p/search/%EC%BF%A0%EC%B0%A8%EB%9D%BC%20%ED%95%A9%EC%A0%95%EC%97%AD%EC%A0%90" target="_blank" rel="noopener noreferrer" aria-label="쿠차라 합정역점 네이버 지도 열기">
+                                <img src="assets/images/map_cuchara.png" alt="쿠차라 합정역점 네이버 지도 스크린샷" class="map-shot">
+                                <span class="map-shot-caption">네이버 지도에서 보기</span>
+                            </a>
+                        </article>
+                        <article class="pilgrimage-slide">
+                            <div class="pilgrimage-info">
+                                <h3>제주시민속오일시장</h3>
+                                <p><strong>📍 위치:</strong> 제주특별자치도 제주시 특별자치도 오일장서길 26</p>
+                                <p><strong>🏃‍♂️ 다녀간 멤버:</strong> 진환</p>
+                                <p><strong>🎢 장소 종류:</strong> 전통시장 / 제주도 핫플</p>
+                                <p><strong>💡 추천 포인트:</strong> 제주도 현지 감성을 느끼며 진환이의 제주 루트를 따라가보기 좋은 곳.</p>
+                                <p><strong>📝 메모:</strong> 오일장 구경과 제주 먹거리 투어까지 함께 즐기기 좋은 코스 🎢</p>
+                                <img src="assets/images/jay.PNG" alt="진환 맛집" class="pilgrimage-photo">
+                            </div>
+                            <a class="pilgrimage-map map-shot-link" href="https://map.naver.com/p/search/%EC%A0%9C%EC%A3%BC%EC%8B%9C%EB%AF%BC%EC%86%8D%EC%98%A4%EC%9D%BC%EC%8B%9C%EC%9E%A5" target="_blank" rel="noopener noreferrer" aria-label="제주시민속오일시장 네이버 지도 열기">
+                                <img src="assets/images/map_jeju_market.png" alt="제주시민속오일시장 네이버 지도 스크린샷" class="map-shot">
+                                <span class="map-shot-caption">네이버 지도에서 보기</span>
+                            </a>
+                        </article>
+                        <article class="pilgrimage-slide">
+                            <div class="pilgrimage-info">
+                                <h3>문갑도 여행자센터 카페 해누리</h3>
+                                <p><strong>📍 위치:</strong> 인천 옹진군 덕적면 문갑리</p>
+                                <p><strong>🏃‍♂️ 다녀간 멤버:</strong> iKON 전체</p>
+                                <p><strong>🥟 장소 종류:</strong> 관광안내소 / 카페</p>
+                                <p><strong>💡 추천 포인트:</strong> iKON TV 문갑도 여행 루트와 함께 들르기 좋은 섬 여행 거점.</p>
+                                <p><strong>📝 메모:</strong> 문갑도 바다를 보며 쉬어가기 좋은 코닉 성지 코스 🥟</p>
+                                <img src="assets/images/ikon.PNG" alt="아이콘 문갑도" class="pilgrimage-photo">
+                            </div>
+                            <a class="pilgrimage-map map-shot-link" href="https://map.naver.com/p/search/%EB%AC%B8%EA%B0%91%EB%8F%84%20%EC%97%AC%ED%96%89%EC%9E%90%EC%84%BC%ED%84%B0%20%EC%B9%B4%ED%8E%98%20%ED%95%B4%EB%88%84%EB%A6%AC" target="_blank" rel="noopener noreferrer" aria-label="문갑도 여행자센터 카페 해누리 네이버 지도 열기">
+                                <img src="assets/images/map_mungap_cafe.png" alt="문갑도 여행자센터 카페 해누리 네이버 지도 스크린샷" class="map-shot">
+                                <span class="map-shot-caption">네이버 지도에서 보기</span>
+                            </a>
+                        </article>
+                  
+                        <div class="pilgrimage-controls">
+                            <button id="prevPilgrimage" type="button">이전</button>
+                            <button id="nextPilgrimage" type="button">다음</button>
+                        </div>
+                            <p class="pilgrimage-status" id="pilgrimageStatus">1 / 6</p>
+                    </div>
+                </div>
+
+                <div class="board-panel" id="freeBoard">
+                    <div class="panel community-board">
+                        <div class="board-header">
+                            <h3>💬 팬 자유게시판</h3>
+                            <p>오늘의 덕질 일기, 콘서트 후기, 멤버 사랑 주접까지 자유롭게 남겨주세요!</p>
+                        </div>
+                        <div class="board-list-scroll">
+                            <ul class="board-list post-it-board" id="freePostList"></ul>
+                        </div>
+                        <div class="board-actions">
+                            <button class="button open-post-modal" type="button" data-board-type="free">게시물 등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 이벤트/참여: 일정표, 공식 이벤트, 팬 이벤트 내용은 아래 각 panel 수정 -->
+        <section class="section" id="events">
+            <p class="label">06</p>
+            <h2>이벤트 / 참여</h2>
+            <div class="panel event-calendar-shell">
+                <div class="calendar-panel">
+                    <div class="calendar-toolbar">
+                        <h3 id="calendarMonthLabel">2026년 5월</h3>
+                        <div class="calendar-nav">
+                            <button class="button" id="calendarPrev" type="button">이전</button>
+                            <button class="button" id="calendarNext" type="button">다음</button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendarWeekdays">
+                        <div class="calendar-weekday">일</div>
+                        <div class="calendar-weekday">월</div>
+                        <div class="calendar-weekday">화</div>
+                        <div class="calendar-weekday">수</div>
+                        <div class="calendar-weekday">목</div>
+                        <div class="calendar-weekday">금</div>
+                        <div class="calendar-weekday">토</div>
+                    </div>
+                    <div class="calendar-grid" id="eventCalendar"></div>
+                </div>
+                <div class="calendar-side">
+                    <div>
+                        <h3 class="calendar-selected-date" id="calendarSelectedDate">선택 날짜</h3>
+                    </div>
+                    <form class="calendar-form" id="calendarEventForm">
+                        <select id="calendarEventType">
+                            <option value="스케줄">스케줄</option>
+                            <option value="공식 이벤트">공식 이벤트</option>
+                            <option value="팬 주최 이벤트">팬 주최 이벤트</option>
+                        </select>
+                        <input type="text" id="calendarEventTitle" placeholder="일정 제목">
+                        <textarea id="calendarEventNote" placeholder="장소, 메모, 참여 내용"></textarea>
+                        <button class="button" type="submit">일정 추가</button>
+                    </form>
+                    <div class="calendar-event-list" id="calendarEventList"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>iKON 팬페이지</p>
+    </footer>
+
+    <!-- 앨범 모달: 추천곡 카드 -->
+    <div class="modal album-modal" id="modal1" aria-hidden="true">
+        <div class="modal-panel">
+            <button class="modal-close" data-close="modal1" type="button">닫기</button>
+            <h3>우리의 서사, 팬송 💧</h3>
+            <p>아이콘과 코닉이들이 함께 걸어온 험난하고도 찬란했던 시간들, 서로를 향한 진심이 담긴 눈물 버튼 플레이리스트.</p>
+            <div class="track-list">
+                <div class="track-item">
+                    <h4>1. 기다려 (WAIT FOR ME)</h4>
+                    <p>MIX & MATCH 시절. 코닉이들 다 같이 오열했던 서사의 시작.</p>
+                    <audio controls src="assets/music/기다려 (Wait For Me) - WIN - Topic (128k).mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>2. 줄게 (JUST FOR YOU)</h4>
+                    <p>팬들을 위한 헌정곡. 콘서트에서 폰 라이트 켜고 떼창할 때의 감동!</p>
+                    <audio controls src="assets/music/iKON - ‘자체제작 iKON TV’ Special Fan Song 줄게.mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>3. 잊지마요 (DON'T FORGET)</h4>
+                    <p>서로를 잊지 말자고 다짐하는 곡. 지칠 때 들으면 위로가 되는 멜로디.</p>
+                    <audio controls src="assets/music/DON'T FORGET (잊지마요) - iKON (128k).mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>4. 이름 (NAME)</h4>
+                    <p>우리를 부르는 애틋한 목소리. 아이콘과 아이코닉의 유대감이 가장 짙게 느껴지는 트랙입니다.</p>
+                    <audio controls src="assets/music/그대 이름 (NAME) - iKON (320k).mp3"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal album-modal" id="modal2" aria-hidden="true">
+        <div class="modal-panel">
+            <button class="modal-close" data-close="modal2" type="button">닫기</button>
+            <h3>콘서트 지붕킥 떼창 🔥</h3>
+            <p>아이콘의 진짜 진가는 라이브와 무대 장악력! 안 뛰고는 못 배기는, 심박수 터지는 공식 셋리스트 모음.</p>
+            <div class="track-list">
+                <div class="track-item">
+                    <h4>1. 시노시작 (SINOSIJAK)</h4>
+                    <p>콘서트 오프닝의 상징! 전주만 들어도 콘배트 쥐고 뛰게 되는 마성의 곡.</p>
+                    <audio controls src="assets/music/SINOSIJAK (시노시작).mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>2. 벌떼 (B-DAY)</h4>
+                    <p>꿀벌들아 모여라! 앵콜 때 다 같이 둥글게 모여서 노는 게 코닉이들 국룰 🐝</p>
+                    <audio controls src="assets/music/b-day.mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>3. 덤앤더머 (DUMB & DUMBER)</h4>
+                    <p>무대에서 가장 자유롭게 노는 곡. 스트레스 받을 때 최고의 볼륨업 트랙!</p>
+                    <audio controls src="assets/music/iKON - Dumb &amp; Dumber (덤앤더머) (Color Coded HanRomEng Lyrics)  by Yankat.mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>4. 리듬 타 (RHYTHM TA)</h4>
+                    <p>오리지널 비트도 좋지만, 콘서트 락(Rock) 버전의 전율은 최고입니다.</p>
+                    <audio controls src="assets/music/rhythm-ta.mp3"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal album-modal" id="modal3" aria-hidden="true">
+        <div class="modal-panel">
+            <button class="modal-close" data-close="modal3" type="button">닫기</button>
+            <h3>새벽 감성 수록곡 🌙</h3>
+            <p>진정한 코닉이들은 타이틀보다 수록곡을 더 앓는다! 비 오는 날, 새벽에 조용히 듣기 좋은 아이콘표 감성곡.</p>
+            <div class="track-list">
+                <div class="track-item">
+                    <h4>1. 지못미 (APOLOGY)</h4>
+                    <p>도입부 보컬 합이 소름 돋는 레전드 이별 곡. 가창력이 폭발합니다.</p>
+                    <audio controls src="assets/music/iKON - Apology (지못미) (Color Coded HanRomEng Lyrics)  by YankaT.mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>2. 안아보자 (HUG ME)</h4>
+                    <p>새벽에 조용히 듣기 좋은 숨은 명곡. 씁쓸한 목소리가 마음에 콕 박혀요.</p>
+                    <audio controls src="assets/music/HUG ME (안아보자).mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>3. 나쁜놈 (JERK)</h4>
+                    <p>멜로디는 가벼운데 가사는 맴찢 ㅠㅠ 자꾸만 흥얼거리게 되는 마성의 곡.</p>
+                    <audio controls src="assets/music/JERK (나쁜놈).mp3"></audio>
+                </div>
+                <div class="track-item">
+                    <h4>4. 네가 모르게 (DON'T LET ME KNOW)</h4>
+                    <p>청량하면서도 아련한 아이콘만의 이별 감성이 제대로 담긴 오래된 트랙.</p>
+                    <audio controls src="assets/music/내가 모르게 (Dont Let Me Know).mp3"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시글 상세 보기 모달 -->
+    <div class="modal" id="postDetailModal" aria-hidden="true">
+        <div class="modal-panel">
+            <button class="modal-close" data-close="postDetailModal" type="button">닫기</button>
+            <div class="post-detail-header">
+                <h3 id="detailTitle">게시글 제목</h3>
+                <p class="board-post-meta" id="detailMeta">등록 일시: - | 작성자: -</p>
+            </div>
+            <div class="post-detail-content">
+                <img id="detailImage" src="" alt="첨부 이미지">
+                <p id="detailContent">게시글 내용</p>
+            </div>
+            <hr class="detail-divider">
+            <div class="post-detail-comments">
+                <h4 style="margin-bottom: 10px; color: #e3000f;">댓글 달기 💬</h4>
+                <ul id="detailCommentList" class="simple-list comment-list"></ul>
+                <form id="detailCommentForm" class="comment-form detail-comment-form">
+                    <input type="text" id="detailCommentWriter" placeholder="코닉네임">
+                    <input type="text" id="detailCommentText" placeholder="댓글을 남겨주세요">
+                    <button type="submit" class="button">등록</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="postModal" aria-hidden="true">
+        <div class="modal-panel">
+            <button class="modal-close" data-close="postModal" type="button">닫기</button>
+            <h3 id="postModalTitle">게시물 등록</h3>
+            <form id="postForm" class="post-modal-form">
+                <input type="hidden" id="postBoardType">
+                <input type="text" id="postWriter" placeholder="작성자">
+                <input type="text" id="postTitle" placeholder="제목">
+                <textarea id="postContent" placeholder="내용 입력"></textarea>
+                <input type="file" id="postImage" accept="image/*">
+                <p class="post-file-note">사진 첨부 가능</p>
+                <div class="button-row">
+                    <button class="button" type="submit">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
